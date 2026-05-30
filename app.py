@@ -8,6 +8,25 @@ from sklearn.preprocessing import StandardScaler
 import warnings
 warnings.filterwarnings("ignore")
 
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+import os, urllib.request
+
+# ── 한글 폰트 설정 (Streamlit Cloud 대응) ──────────────────────
+def set_korean_font():
+    font_path = "/tmp/NanumGothic.ttf"
+    if not os.path.exists(font_path):
+        urllib.request.urlretrieve(
+            "https://github.com/googlefonts/nanum/raw/main/src/NanumGothic/NanumGothic-Regular.ttf",
+            font_path,
+        )
+    fm.fontManager.addfont(font_path)
+    font_name = fm.FontProperties(fname=font_path).get_name()
+    plt.rcParams["font.family"] = font_name
+    plt.rcParams["axes.unicode_minus"] = False  # 마이너스 부호 깨짐 방지
+
+set_korean_font()
+
 # ── 페이지 설정 ──────────────────────────────────────────────────
 st.set_page_config(
     page_title="폐암 환자 군집 분석 시스템",
